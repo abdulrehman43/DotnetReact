@@ -5,13 +5,15 @@ import { Activity } from "../../../app/models/Activity";
 interface Props {
   closeForm: () => void;
   activity: Activity | undefined;
-  handleCreateEdit : (actvity: Activity) => void
+  handleCreateEdit : (actvity: Activity) => void;
+  submitting: boolean;
 }
 
 export default function ActivityForm({
   closeForm,
   activity: selectedActivity,
-  handleCreateEdit
+  handleCreateEdit,
+  submitting
   
 }: Props) {
 
@@ -41,10 +43,10 @@ export default function ActivityForm({
         <Form.Input placeholder="Title" value={activity.title} name="title" onChange={handleOnChnage} />
         <Form.TextArea placeholder="Description" value={activity.description} name="description" onChange={handleOnChnage} />
         <Form.Input placeholder="Category" value={activity.category} name="category" onChange={handleOnChnage} />
-        <Form.Input placeholder="Date" value={activity.date} name="date" onChange={handleOnChnage} />
+        <Form.Input type='date' placeholder="Date" value={activity.date} name="date" onChange={handleOnChnage} />
         <Form.Input placeholder="City" value={activity.city} name="city" onChange={handleOnChnage} />
         <Form.Input placeholder="Venue" value={activity.venue} name="venue" onChange={handleOnChnage} />
-        <Button content="Submit" type="submit" positive floated="right" />
+        <Button loading={submitting} content="Submit" type="submit" positive floated="right" />
         <Button
           onClick={closeForm}
           content="Cancel"
