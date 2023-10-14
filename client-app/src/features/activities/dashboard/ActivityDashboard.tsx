@@ -1,56 +1,24 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
-import { Activity } from "../../../app/models/Activity";
 import ActivityList from "./ActivityList";
 import ActivityDetails from "../details/ActivityDetails";
 import ActivityForm from "../form/ActivityForm";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-  activities: Activity[];
-  selectedActivity: Activity | undefined;
-  selectActivity: (id: string) => void;
-  cancelSelectActivity: () => void;
-  editMode: boolean;
-  openForm: (id: string) => void;
-  closeForm: () => void;
-  handleCreateEdit:(activity: Activity) => void;
-  handleDeleteActivity : (id: string) => void;
-  submitting: boolean;
-}
+export default observer(function ActivityDashboard() {
+  const { activityStore } = useStore();
+  const { selectedActivity, editMode } = activityStore;
 
-export default function ActivityDashboard({
-  activities,
-  selectActivity,
-  selectedActivity,
-  cancelSelectActivity,
-  editMode,
-  openForm,
-  closeForm,
-  handleCreateEdit,
-  handleDeleteActivity,
-  submitting
-}: Props) {
   return (
     <Grid>
       <Grid.Column width="10">
-        <ActivityList activities={activities} selectActivity={selectActivity} 
-          handleDeleteActivity={handleDeleteActivity}
-          submitting={submitting}
-        />
+        <ActivityList />
       </Grid.Column>
       <Grid.Column width="6">
-        {selectedActivity && !editMode&& (
-          <ActivityDetails
-            activity={selectedActivity}
-            cancelSelectActivity={cancelSelectActivity}
-            openForm={openForm}
-          />
-        )}
-        {editMode && <ActivityForm closeForm={closeForm} activity={selectedActivity}
-          handleCreateEdit={handleCreateEdit}
-          submitting={submitting}
-        />}
+        {selectedActivity && !editMode && <ActivityDetails />}
+        {editMode && <ActivityForm />}
       </Grid.Column>
     </Grid>
   );
-}
+});
