@@ -1,8 +1,9 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { Button, Item,Segment } from 'semantic-ui-react';
+import { Button, Icon, Item,Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { Activity } from '../../../app/models/Activity';
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 
 
 interface Props {
@@ -35,6 +36,15 @@ export default function ActivityListItem ({act}: Props) {
                     </Item.Content>
                 </Item>
             </Item.Group>
+        </Segment>
+        <Segment>
+         <span>
+          <Icon name='clock' />{format(act.date!, 'dd MMM yyyy h:mm aa')}
+          <Icon name='clock' />{act.venue}
+         </span>
+        </Segment>
+        <Segment secondary>
+          Attendees go here
         </Segment>
         <Segment clearing>
             <span>{act.description}</span>
